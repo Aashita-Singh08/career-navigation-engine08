@@ -403,37 +403,4 @@ if st.button("Analyze & Recommend Career"):
     </div>
     """, unsafe_allow_html=True)
     
-    # Output details from Database
-    role_details = career_db.get(predicted_role, None)
-    if role_details:
-        rcol1, rcol2 = st.columns(2)
-        with rcol1:
-            st.markdown("#### Description")
-            st.write(role_details['desc'])
-            st.markdown("#### Average Entry-Level Salary")
-            st.code(role_details['salary'], language='text')
-        with rcol2:
-            st.markdown("#### Essential Skills to Target")
-            for s in role_details['skills']:
-                st.markdown(f"- **{s}**")
-            st.markdown("#### Suggested Career Path")
-            st.write(role_details['path'])
-            
-    # Generate personalized recommendations based on score rules
-    st.markdown("### Personalized Career Advice")
-    advice = []
-    if coding_skill < 6 and predicted_role in ["Software Engineer", "Software Developer", "Database Developer", "Mobile Applications Developer", "Web Developer"]:
-        advice.append(f"While your profile aligns with a **{predicted_role}**, your self-reported coding score ({coding_skill}/9) is on the lower side. We strongly recommend investing extra time in data structures and logic building.")
-    if self_learning == 'No':
-        advice.append("In the tech sector, trends change rapidly. Developing a routine for self-directed study or reading technical blogs will give you a significant competitive edge.")
-    if teamwork == 'No' and predicted_role in ["Software Engineer", "UX Designer", "CRM Technical Developer"]:
-        advice.append("Software engineering and design are team sports. Consider participating in collaborative group projects or hackathons to build team collaboration skills.")
-    if speaking_pts < 5 and predicted_role in ["Technical Support", "UX Designer"]:
-        advice.append("Communications are highly critical for this path. Consider joining discussion forums, public speaking clubs, or presenting at local workshops to boost confidence.")
-    if introvert == 'Yes' and predicted_role in ["Technical Support"]:
-        advice.append("As an introvert, customer-facing technical support might feel draining at times. You could use this role as a stepping stone toward backend system administration or security roles where operations are more independent.")
     
-    if not advice:
-        advice.append("You have a solid foundation! Keep working on hands-on practical implementations and build a public portfolio (e.g., GitHub or portfolio website) to showcase your projects.")
-        
-    st.info(" \n\n".join(advice))
